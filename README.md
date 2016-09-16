@@ -79,7 +79,7 @@ A central feature of VR Zero is the player avatar, which is made up of a 'body' 
 The body is moved in response to certain keyboard, joypad and mouse events. 
 The head is moved in response to certain joypad, mouse and headm mounted display (HMD) events from the Rift.
 
-Essentiallt, controlling the player avater feels just like any old first person shooter.
+Essentially, controlling the player avatar feels just like playing a first person shooter.
 
 The body can be positioned using the vrzero API. 
 
