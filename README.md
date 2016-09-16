@@ -21,7 +21,7 @@ VR Zero adds a number of features on top of [pi3d](https://pi3d.github.io) and s
   
 VR Zero includes:
 
-- Default input event handling for Keyboard, Mouse, Joypad and the Rift for moving, and altering the view, of the player avatar. 
+- Default input event handling for Keyboard, Mouse, Joypad and the Rift for moving and altering the view of the player avatar. 
 - Known good HDMI configuration settings for the Oculus Rift DK1 and DK2.
 - An OpenHMD Debian package, OpenHMD is used to read the rotational sensor reading from the Rift.
 - Python bindings for the native OpenHMD library with supporting udev config for non-root access to USB device
@@ -30,7 +30,7 @@ VR Zero includes:
 - A handful of VR demos (screenshots and a video of the demos can be found below).
 
  
-VR Zero is for fun and learning, so don't expect huge gaming PC frame rates, although some of the demos do peak at around 25-30 FPS on a Pi 3.
+VR Zero is for fun and learning, so don't expect huge gaming PC like frame rates, some of the demos peak at around 25-30 FPS on a Pi 3.
  
 The API will in no doubt change, boiler plate code may lessen, faster Pi hardware will be released and HMD's will get cheaper... (hopefully)  :)
 
@@ -94,20 +94,20 @@ The keyboards controls movement, the default mappings are the classic: WSAD, SPA
 
 ### Mouse
 
-The mouse controls looking (and direction of travel when movement), mouse button 1 is 'action' and mouse button 2 is 'jump'.
+The mouse controls looking (and direction of travel when moving).  Mouse button 1 is 'action' and mouse button 2 is 'jump'.
 
 ### Joypad
 
-An Xbox controller controls movement and view using the left and right stick respectively, the 'A' button is 'action' and the 'B' button is jump. 
+An Xbox controller controls movement and view using the left and right stick respectively. The 'A' button is 'action' and the 'B' button is jump. 
  
  
 ### Head Mounted Display
 
-The underlying OpenHMD library used to read the HMD sensor data, via USB, the VR Zero library automatically rotates the pi3d Steroscopic camera in response to HMD readings.
+The  OpenHMD library is used to read the HMD sensor data. VR Zero automatically rotates the pi3d Steroscopic camera in response to HMD readings.
 
 ### 3D
 
-Please see the demos below for how to control the player avatar programatically, for example [demos/forest.py](demos/forest.py) shows how to correctly set the players avatar's Y position when using a height field for terrain.
+Please see the demos below for how to control the player avatar programatically, for example, [demos/forest.py](demos/forest.py) shows how to correctly set the players avatar's Y position when using a height field for terrain.
 
 For information of setting up a 3D scene and 3D rendering please refer to the [pi3d documentation](https://pi3d.github.io/html/) and [pi3d demos](https://github.com/pi3d/pi3d_demos).
 
@@ -116,7 +116,7 @@ For information of setting up a 3D scene and 3D rendering please refer to the [p
 
 # Install
 
-Although a single apt-get install would be nice, it's currently a bit of a stretch. But once all parts are installed (ideally onto a fresh Jessie, tested with 2016-05-27), then it's happy days from there.
+Although a single apt-get install would be nice, it's currently a bit of a stretch. But once all parts are installed (ideally onto a fresh Raspbian Jessie, tested with 2016-05-27), then it's happy days from there.
 
  
 Install the package dependencies:
@@ -162,8 +162,8 @@ sudo cp config/config_DK2.txt /boot/config.txt
 
 
 
-Run these commands, the first enable th root-less USB access setup earlier 
-and the 2nd command disables BluetoothLE, needed to stop OpenGL ES hanging:
+Run these commands, the first enables the root-less USB udev config setup earlier 
+and the 2nd command disables BluetoothLE, which is currently needed to stop OpenGL ES hanging:
 ```bash
 sudo udevadm control --reload-rules
 sudo systemctl disable hciuart
@@ -186,7 +186,7 @@ cd python-vrzero/demos
 ./abbey.py
 ```
 
-All of the demos other than the Minecraft inspired [demos/blockworld.py](demos/blockworld.py) are ports of standard Pi3D demos to VR Zero.
+All of the demos, other than the Minecraft inspired [demos/blockworld.py](demos/blockworld.py), are ports of standard Pi3D demos to VR Zero.
 
 
 ## Abbey
@@ -223,8 +223,9 @@ Note that all camera movement (user input) and stereoscopic rendering with len d
 You can move and look around with any attached keyboard (move only), mouse (look only), joypad  (move + look) and HMD (look only)
 
 ```python
-import pi3d
 from vrzero import engine
+import pi3d
+
 engine.init()
 
 shader = pi3d.Shader("uv_reflect")
