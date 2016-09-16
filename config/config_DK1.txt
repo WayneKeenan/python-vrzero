@@ -1,0 +1,9 @@
+dtparam=audio=on
+lcd_rotate=2
+#start_x=1
+gpu_mem=256
+framebuffer_width=1280
+framebuffer_height=800
+enable_uart=1
+dtoverlay=pi3-disable-bt
+#sudo systemctl disable hciuart

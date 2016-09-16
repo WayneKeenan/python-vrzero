@@ -1,0 +1,15 @@
+# Many thanks to the users who commented in this post: https://www.raspberrypi.org/forums/viewtopic.php?f=28&t=94065
+hdmi_timings=1080 1 33 10 15 1920 1 1 1 13 0 0 0 75 0 165000000 3
+hdmi_group=2
+hdmi_mode=87
+max_framebuffer_width=1080
+max_framebuffer_height=1920
+display_rotate=3
+hdmi_ignore_edid=0xa5000080
+hvs_priority=0x32ff
+hdmi_pixel_freq_limit=400000000
+gpu_mem=256
+dtparam=audio=on
+
+dtoverlay=pi3-disable-bt
+#Also need to disable service: sudo systemctl disable hciuart

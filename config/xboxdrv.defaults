@@ -1,0 +1,15 @@
+CONTROLLER_NUM=1
+
+case $CONTROLLER_NUM in
+    1) CONTROLLER="-w 0 -l 2  --dpad-as-button"
+    ;;
+    2) CONTROLLER="-w 0 -l 2  --dpad-as-button --next-controller -w 1 -l 3  --dpad-as-button"
+    ;;
+    3) CONTROLLER="-w 0 -l 2  --dpad-as-button --next-controller -w 1 -l 3  --dpad-as-button --next-controller -w 2 -l 4  --dpad-as-button"
+    ;;
+    4) CONTROLLER="-w 0 -l 2  --dpad-as-button --next-controller -w 1 -l 3  --dpad-as-button --next-controller -w 2 -l 4  --dpad-as-button --next-controller -w 3 -l 5  --dpad-as-button"
+    ;;
+    *) CONTROLLER="incorrect amount of controller specified"
+    ;;
+esac
+
