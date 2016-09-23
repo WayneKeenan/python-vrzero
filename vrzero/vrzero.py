@@ -50,8 +50,6 @@ DEFAULT_JOYPAD_BUTTON_JUMP = pi3d.event.Event.key_to_code('BTN_B')
 
 DEFAULT_JOYPAD_BUTTON_QUIT = pi3d.event.Event.key_to_code('BTN_SELECT')
 
-
-
 class Engine:
     """
     Represents a Virtual Realtiy engine that handles the movement of an avatar and 3D stereo projection of
@@ -115,6 +113,9 @@ class Engine:
         self.tick = 0
         self.next_time = time.time() + 1.0
 
+        self.use_simple_display=False
+        self.use_crosseyed_method=False
+
     def stats(self):
         if not self.show_stats:
             return
@@ -134,7 +135,10 @@ class Engine:
         self.DISPLAY.set_background(0.0,0.0,0.0,1)
         self.DISPLAY.frames_per_second = self.target_fps
 
-        self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0, shader="barrel")
+        shader_name = "barrel" if not self.use_simple_display else "uv_flat"
+        if self.use_crosseyed_method:
+            self.hmd_eye_seperation = -self.hmd_eye_seperation
+        self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0, shader=shader_name)
 
         # Setup Inputs
 

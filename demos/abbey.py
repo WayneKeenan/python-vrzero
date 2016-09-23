@@ -6,6 +6,14 @@
 import pi3d
 from vrzero import engine
 engine.show_stats=True
+
+# Uncomment these if using a HDMI screen.
+#engine.use_simple_display=True
+#engine.use_crosseyed_method=True
+
+# Change the eye seperation setting:
+#engine.hmd_eye_seperation=0.6
+
 # VR Zero init, must be done *before* Pi3D setup.
 engine.init()
 
