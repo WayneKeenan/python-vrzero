@@ -124,7 +124,7 @@ Install the package dependencies:
 ```bash
 sudo apt-get update
 sudo apt-get install -y libhidapi-libusb0 xboxdrv
-sudo pip3 install pi3d
+sudo pip3 install pi3d==2.14
 ```
 
 
