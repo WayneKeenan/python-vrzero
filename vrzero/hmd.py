@@ -29,6 +29,8 @@ class OpenHMD(object):
 
     def __init__(self, device_id=0):
         self.ctx = lib.ohmd_ctx_create()
+        print("*" * 100)
+        print(self.ctx)
         lib.ohmd_ctx_probe(self.ctx)
         # get default/first connected device, but it maybe the 'dummy' OpenHMD device
         self.device = ohmd_list_open_device(self.ctx, device_id)

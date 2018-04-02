@@ -72,7 +72,7 @@ The complete code of a fully functioning demo, the Pi Tea Pot, is include inline
 
 ---
 
-# Documentation
+# Outline
 
 A central feature of VR Zero is the player avatar, which is made up of a 'body' and a 'head'.
   
@@ -113,67 +113,9 @@ For information of setting up a 3D scene and 3D rendering please refer to the [p
 
 
 ---
+# Installation
 
-# Install
-
-Although a single apt-get install would be nice, it's currently a bit of a stretch. But once all parts are installed (ideally onto a fresh Raspbian Jessie, tested with 2016-05-27), then it's happy days from there.
-
- 
-Install the package dependencies:
-
-```bash
-sudo apt-get update
-sudo apt-get install -y libhidapi-libusb0 xboxdrv
-sudo pip3 install pi3d==2.14
-```
-
-
-Clone and install VR Zero along with a pre-made OpenHMD Debian package:
-
-```bash
-git clone https://github.com/WayneKeenan/python-vrzero
-cd python-vrzero
-sudo python3 setup.py install
-sudo dpkg -i install/openhmd_0.0.1-1_armhf.deb
-sudo apt-get install -f
-sudo ldconfig
-```
-
-Settings for: root-less USB (HMD) access and and XBox Joypad:
-
-```bash
-sudo cp config/83-hmd.rules /etc/udev/rules.d/
-sudo cp config/xboxdrv.init /etc/init.d/xboxdrv
-sudo cp config/xboxdrv.defaults /etc/default/xboxdrv
-```
-
-
-If have a Rift DK1 or you want to test using a HDMI monitor then run:
-```bash
-sudo cp config/config_DK1.txt /boot/config.txt
-```
-
-
-If you have a Rift DK2 then run:
-
-```bash
-sudo cp config/config_DK2.txt /boot/config.txt
-```
-
-
-
-Run these commands, the first enables the root-less USB udev config setup earlier 
-and the 2nd command disables BluetoothLE, which is currently needed to stop OpenGL ES hanging:
-```bash
-sudo udevadm control --reload-rules
-sudo systemctl disable hciuart
-```
-
-Restart!
-
-```bash
-sudo reboot
-```
+Please see the [INSTALL](INSTALL.md) guide.
 
 ---
 
