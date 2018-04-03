@@ -74,4 +74,62 @@ sudo reboot
 
 
 
+# PS4 Controller Setup
 
+Use long USB micro cable or pair using Bluetooth:
+
+Run:
+```
+bluetoothctl
+```
+
+In the `bluetoothctl` shell:
+
+```
+agent on
+default-agent
+power on
+discoverable on
+pairable on
+scan on
+```
+
+
+Now put your Sony PlayStation 4 control pad into pairable mode by holding down the Share and PlayStation buttons until the light bar on the control pad flashes yellow. 
+After a few seconds you should see at the `bluetoothctl` prompt that your control pad has been discovered, e.g
+
+```
+[NEW] Device DC:0C:2D:83:5F:A6 Wireless Controller
+```
+
+Then type, replacing what ever you see as `DC:0C:2D:83:5F:A6` for DEVICE_ADDRESS below:
+
+```
+scan off
+pair DEVICE_ADDRESS
+trust DEVICE_ADDRESS
+connect DEVICE_ADDRESS
+```
+
+You may get prompted, say yes:
+```
+[agent] Authorize service 00001124-0000-1000-8000-00805f9b34fb (yes/no): yes
+```
+
+
+
+## Quick test
+
+Assuming this is the only controller connected it will be `/dev/input/js0`
+
+```
+sudo apt-get install jstest-gtk
+jstest /dev/input/js0
+```
+
+
+# PSVR Operational notes
+
+Turn on the PSVR before starting the Pi
+Nothing will display until a demo is running 
+The HMD will display black, you needd to 'wake' the PSVR up by putting it on or placeing your finger/hand neer the sensor between the lenses.
