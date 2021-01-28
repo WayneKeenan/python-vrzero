@@ -16,8 +16,13 @@ DEBUG = False
 DEFAULT_TARGET_FPS = 30
 
 # Oculus DK2 HMD resolution (also need to update /boot/config.txt)
-DEFAULT_HMD_SCREEN_WIDTH=1920
-DEFAULT_HMD_SCREEN_HEIGHT=1080
+#DEFAULT_HMD_SCREEN_WIDTH=1920
+#DEFAULT_HMD_SCREEN_HEIGHT=1080
+
+# PSVR Resolution chosen by Pi "best for display"
+DEFAULT_HMD_SCREEN_WIDTH=1824
+DEFAULT_HMD_SCREEN_HEIGHT=984
+
 
 DEFAULT_AVATAR_EYE_HEIGHT = 6.0
 DEFAULT_AVATAR_MOVEMENT_SPEED = 1.0
@@ -138,7 +143,7 @@ class Engine:
         shader_name = "barrel" if not self.use_simple_display else "uv_flat"
         if self.use_crosseyed_method:
             self.hmd_eye_seperation = -self.hmd_eye_seperation
-        self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0, shader=shader_name)
+        self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0, shader="shaders/"+shader_name)
 
         # Setup Inputs
 
@@ -204,12 +209,9 @@ class Engine:
     def poll_inputs(self):
         self.inputs.do_input_events()
 
-    def hmd_worker(self):
-        while True:
-            self.hmd.poll()
-            time.sleep(0.01)
 
     def update_avatar(self):
+        self.hmd.poll()
         #HMD Updates (Avatar head rotation)
         self.avatar_head_rotation = ( math.degrees(self.hmd.rotation[0])*DEFAULT_HMD_VIEW_SCALE,
                               math.degrees(self.hmd.rotation[1])*DEFAULT_HMD_VIEW_SCALE,
@@ -281,9 +283,6 @@ class Engine:
 
 
     def start(self, **kwargs):
-        self.hmd_thread = threading.Thread(target=self.hmd_worker, args=())
-        self.hmd_thread.daemon = True
-        self.hmd_thread.start()
 
         self.on_start()
         while self.DISPLAY.loop_running() or self.keep_running:

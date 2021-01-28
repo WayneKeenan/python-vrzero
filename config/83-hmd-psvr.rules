@@ -1,0 +1,1 @@
+echo 'KERNEL=="hidraw*", ATTRS{busnum}=="1", ATTRS{idVendor}=="054c", MODE="0666", GROUP="plugdev"'

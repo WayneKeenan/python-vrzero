@@ -12,4 +12,5 @@ gpu_mem=256
 dtparam=audio=on
 
 dtoverlay=pi3-disable-bt
-#Also need to disable service: sudo systemctl disable hciuart
+
+#(Jessie, not confimred for Stretch) Also need to disable service: sudo systemctl disable hciuart
