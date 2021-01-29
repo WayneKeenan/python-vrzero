@@ -13,7 +13,7 @@ from .hmd import OpenHMD
 
 DEBUG = False
 
-DEFAULT_TARGET_FPS = 30
+DEFAULT_TARGET_FPS = 60
 
 # Oculus DK2 HMD resolution (also need to update /boot/config.txt)
 #DEFAULT_HMD_SCREEN_WIDTH=1920
@@ -147,7 +147,8 @@ class Engine:
         if self.use_crosseyed_method:
             self.hmd_eye_seperation = -self.hmd_eye_seperation
         #self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0, shader="shaders/"+shader_name)
-        self.CAMERA = pi3d.Camera()
+        self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0)
+        #self.CAMERA = pi3d.Camera()
 
         # Setup Inputs
 
@@ -275,8 +276,8 @@ class Engine:
         self.camera_rotation[2] = self.avatar_body_rotation[2] + self.avatar_head_rotation[2]
 
     def render_stereo_scene(self, render_callback):
-        render_callback()
-        return
+        # render_callback()
+        # return
 
         self.CAMERA.move_camera(self.camera_position,
                                 self.camera_rotation[1], self.camera_rotation[0], -self.camera_rotation[2])
