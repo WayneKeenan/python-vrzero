@@ -4,6 +4,7 @@ import time
 import math
 import pi3d
 from .hmd import OpenHMD
+from . import Gamepad
 
 # Greetings programs...
 
@@ -148,11 +149,17 @@ class Engine:
             self.hmd_eye_seperation = -self.hmd_eye_seperation
         #self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0, shader="shaders/"+shader_name)
         self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0)
-        #self.CAMERA = pi3d.Camera()
 
         # Setup Inputs
 
-        self.inputs = pi3d.InputEvents(self.key_handler_func, self.mouse_handler_func, self.joystick_handler_func)
+        #self.inputs = pi3d.InputEvents(self.key_handler_func, self.mouse_handler_func, self.joystick_handler_func)
+        if Gamepad.available():
+            self.gamepad = Gamepad.PS4()
+            self.gamepad.startBackgroundUpdates()
+        else:
+            print('Controller not connected :(')
+
+
         self.hmd = OpenHMD()
 
     def mouse_handler_func(self, sourceType, sourceIndex, delta_x, delta_y, v, h):
@@ -170,10 +177,10 @@ class Engine:
     def joystick_handler_func(self, sourceType, sourceIndex, x1, y1, z1, x2, y2, z2, hatx, haty):
         if self.debug:
             print("Absolute[%d] (%6.3f, %6.3f, %6.3f), (%6.3f, %6.3f, %6.3f), (%2.0f, %2.0f)" %(sourceIndex, x1, y1, z1, x2, y2, z2, hatx, haty))
-        self.joystick_h_axis_pos = x1
-        self.joystick_v_axis_pos = y1
-        self.joystick_right_h_axis_pos = x2
-        self.joystick_right_v_axis_pos = y2
+        self.joystick_v_axis_pos = x1 if x1 is not None else 0.0
+        self.joystick_h_axis_pos = y1 if y1 is not None else 0.0
+        self.joystick_right_v_axis_pos = x2 if x2 is not None else 0.0
+        self.joystick_right_h_axis_pos = y2 if y2 is not None else 0.0
 
     def key_handler_func(self, sourceType, sourceIndex, key, value):
         if self.debug:
@@ -212,8 +219,13 @@ class Engine:
             self.stop()
 
     def poll_inputs(self):
-        self.inputs.do_input_events()
-
+        #self.inputs.do_input_events()
+        left_x = self.gamepad.axis("LEFT-X")
+        left_y = self.gamepad.axis("LEFT-Y")
+        right_x = self.gamepad.axis("RIGHT-X")
+        right_y = self.gamepad.axis("RIGHT-Y")
+        #print(left_x, left_y, right_x, right_y)
+        self.joystick_handler_func(self, None, None, left_x, left_y, None, right_x, right_y, None, None)
 
     def update_avatar(self):
         self.hmd.poll()
@@ -276,9 +288,6 @@ class Engine:
         self.camera_rotation[2] = self.avatar_body_rotation[2] + self.avatar_head_rotation[2]
 
     def render_stereo_scene(self, render_callback):
-        # render_callback()
-        # return
-
         self.CAMERA.move_camera(self.camera_position,
                                 self.camera_rotation[1], self.camera_rotation[0], -self.camera_rotation[2])
 
