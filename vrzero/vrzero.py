@@ -112,9 +112,9 @@ class Engine:
         self.hmd_eye_seperation = DEFAULT_HMD_EYE_SEPERATION
         self.target_fps = DEFAULT_TARGET_FPS
 
-        self.use_framebuffer = True
+        self.use_framebuffer = False
 
-        self.show_stats = False
+        self.show_stats = True
         self.tick = 0
         self.next_time = time.time() + 1.0
 
@@ -136,14 +136,18 @@ class Engine:
             os.putenv('SDL_FBDEV', '/dev/fb0')
             os.putenv('SDL_VIDEODRIVER', 'fbcon')
 
-        self.DISPLAY = pi3d.Display.create(w=self.hmd_screen_width, h=self.hmd_screen_height, use_pygame=True)
+        self.DISPLAY = pi3d.Display.create(w=self.hmd_screen_width, h=self.hmd_screen_height,
+                                           #display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED,
+                                           use_glx=True)
+
         self.DISPLAY.set_background(0.0,0.0,0.0,1)
         self.DISPLAY.frames_per_second = self.target_fps
 
         shader_name = "barrel" if not self.use_simple_display else "uv_flat"
         if self.use_crosseyed_method:
             self.hmd_eye_seperation = -self.hmd_eye_seperation
-        self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0, shader="shaders/"+shader_name)
+        #self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0, shader="shaders/"+shader_name)
+        self.CAMERA = pi3d.Camera()
 
         # Setup Inputs
 
@@ -271,6 +275,9 @@ class Engine:
         self.camera_rotation[2] = self.avatar_body_rotation[2] + self.avatar_head_rotation[2]
 
     def render_stereo_scene(self, render_callback):
+        render_callback()
+        return
+
         self.CAMERA.move_camera(self.camera_position,
                                 self.camera_rotation[1], self.camera_rotation[0], -self.camera_rotation[2])
 
