@@ -1,5 +1,12 @@
-precision mediump float;
+#version 120
+//precision mediump float;
+//fragcolor
+
 uniform sampler2D tex0;
+uniform vec3 unib[5];
+uniform vec3 unif[20];
+
+
 varying vec2 texcoordout;
 
 // TODO: move to attribute parameter, see pi3d.Shape.set_custom_data
