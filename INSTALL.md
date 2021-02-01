@@ -21,18 +21,22 @@ sudo cp config/config_PSVR.txt /boot/
 sudo pip3 install pi3d==2.41
 
 
-# OpenHMD
+# 3. Install OpenHMD
 ```
 cd ../OpenHMD
 git checkout 71829a902b8135e8e5557faaa488dc800685c949
 ```
 
-# (Depends) If installed remove these packages as the current OpemHMD release/package has PSVR support disabled.
+## Clean-up (optional)
+
+If previous packages have been installed, remove them:
 ```
 sudo apt-get remove libopenhmd0 libopenhmd-dev
 ```
 
+## Build from source 
 
+The pre-built packages do not have PSVR support enabled:
 
 ```
 sudo apt-get install cmake libsdl2-dev libhidapi-dev libhidapi-hidraw0
@@ -44,19 +48,19 @@ sudo make install
 sudo ldconfig
 ```
 
+# 4. Install VRZero
 
 ```
 cd ../../python-vrzero/
 pip3 install --user  .
 ```
 
-
 ```
 sudo reboot
 ```
 
 
-# Run demo
+# 5. Run demo
 
 ```
 cd python-vrzero/demos
@@ -67,10 +71,10 @@ The use of `sudo -E` is required because of OpenHMD device access and `vrzero` i
 
 
 
+---
+# Other bits...
 
-
-
-# PS4 Controller Setup
+## PS4 Controller Setup
 
 Pair using Bluetooth:
 
@@ -104,9 +108,9 @@ trust DEVICE_ADDRESS
 
 
 
-# Touch tests
+## Touch tests
 
-## HMD tests
+### HMD tests
 
 Using sudo as need to fix OmenHMD/USBHID permissions...
 
@@ -123,7 +127,7 @@ sudo -E python3 tests/test_openhmd.py
 ```
 
 
-## Joypad test
+### Joypad test
 
 Assuming this is the only controller connected it will be `/dev/input/js0`
 
