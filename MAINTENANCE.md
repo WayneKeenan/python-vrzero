@@ -19,3 +19,9 @@ make
 
 sudo checkinstall --pkgname libopenhmd0 --pkgversion $VERSION --pkggroup libs --pkgsource https://github.com/OpenHMD/OpenHMD --requires libhidapi-libusb0,libc6
 ```
+
+
+## Obtain HDMI EDID Ino
+
+
+/opt/vc/bin/tvservice -d edid.dat  && /opt/vc/bin/edidparser edid.dat | grep "monitor name is"

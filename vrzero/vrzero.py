@@ -14,6 +14,8 @@ from . import Gamepad
 
 DEBUG = False
 
+LOGGER = pi3d.Log(level='DEBUG', format='%(message)s')
+
 DEFAULT_TARGET_FPS = 60
 
 # Oculus DK2 HMD resolution (also need to update /boot/config.txt)
@@ -73,6 +75,8 @@ class Engine:
     def __init__(self, **kwargs):
         self.debug = DEBUG
         self.keep_running = True
+
+        self.gamepad = None
 
         self.is_forward_pressed = False
         self.is_backward_pressed = False
@@ -138,7 +142,7 @@ class Engine:
             os.putenv('SDL_VIDEODRIVER', 'fbcon')
 
         self.DISPLAY = pi3d.Display.create(w=self.hmd_screen_width, h=self.hmd_screen_height,
-                                           #display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED,
+                                           display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_FULLSCREEN,
                                            use_glx=True)
 
         self.DISPLAY.set_background(0.0,0.0,0.0,1)
@@ -147,18 +151,19 @@ class Engine:
         shader_name = "barrel" if not self.use_simple_display else "uv_flat"
         if self.use_crosseyed_method:
             self.hmd_eye_seperation = -self.hmd_eye_seperation
-        #self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0, shader="shaders/"+shader_name)
-        self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0)
+        self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0, shader="shaders/"+shader_name)
+        #self.CAMERA = pi3d.StereoCam(separation=self.hmd_eye_seperation, interlace=0)
 
+        #exit(1)
         # Setup Inputs
 
         #self.inputs = pi3d.InputEvents(self.key_handler_func, self.mouse_handler_func, self.joystick_handler_func)
         if Gamepad.available():
             self.gamepad = Gamepad.PS4()
             self.gamepad.startBackgroundUpdates()
+
         else:
             print('Controller not connected :(')
-
 
         self.hmd = OpenHMD()
 
@@ -220,12 +225,13 @@ class Engine:
 
     def poll_inputs(self):
         #self.inputs.do_input_events()
-        left_x = self.gamepad.axis("LEFT-X")
-        left_y = self.gamepad.axis("LEFT-Y")
-        right_x = self.gamepad.axis("RIGHT-X")
-        right_y = self.gamepad.axis("RIGHT-Y")
-        #print(left_x, left_y, right_x, right_y)
-        self.joystick_handler_func(self, None, None, left_x, left_y, None, right_x, right_y, None, None)
+        if self.gamepad is not None:
+            left_x = self.gamepad.axis("LEFT-X")
+            left_y = self.gamepad.axis("LEFT-Y")
+            right_x = self.gamepad.axis("RIGHT-X")
+            right_y = self.gamepad.axis("RIGHT-Y")
+            #print(left_x, left_y, right_x, right_y)
+            self.joystick_handler_func(self, None, None, left_x, left_y, None, right_x, right_y, None, None)
 
     def update_avatar(self):
         self.hmd.poll()
@@ -291,10 +297,12 @@ class Engine:
         self.CAMERA.move_camera(self.camera_position,
                                 self.camera_rotation[1], self.camera_rotation[0], -self.camera_rotation[2])
 
-        for i in range(2):
-            self.CAMERA.start_capture(i)
-            render_callback()
-            self.CAMERA.end_capture(i)
+        self.CAMERA.start_capture(0)
+        render_callback()
+        self.CAMERA.end_capture(0)
+        self.CAMERA.start_capture(1)
+        render_callback()
+        self.CAMERA.end_capture(1)
         self.CAMERA.draw()
 
 

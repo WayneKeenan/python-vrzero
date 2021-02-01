@@ -7,7 +7,7 @@ tests_require = []
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
-version = "0.0.2"
+version = "0.0.3"
 
 setup(
     name='vrzero',
