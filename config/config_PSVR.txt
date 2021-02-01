@@ -1,0 +1,13 @@
+disable_overscan=1
+hdmi_force_hotplug=1
+dtparam=audio=on
+
+[pi4]
+# Enable DRM VC4 V3D driver on top of the dispmanx display stack
+dtoverlay=vc4-fkms-v3d
+max_framebuffers=2
+
+[all]
+gpu_mem=256
+
+hdmi_cvt 1216 192 60 # Set the resolution to 1216x192
