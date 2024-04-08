@@ -3,8 +3,6 @@
 
 Virtual Reality development on the Raspberry Pi, in Python.
 
-Created by [Wayne Keenan](https://twitter.com/wkeenan) of [The Bubbleworks](https://www.thebubbleworks.com/).
-
 Status: *** Experimental ***
 
 ![Image of Pi](demos/screenshots/blockworld.png)
